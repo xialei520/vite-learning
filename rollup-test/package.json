@@ -1,0 +1,29 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/bundle.cjs.js",
+  "module": "./dist/bundle.es.js",
+  "type": "module",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.19.6",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.19.4",
+    "@rollup/plugin-babel": "^6.0.2",
+    "@rollup/plugin-commonjs": "^23.0.2",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "rollup": "^3.17.2"
+  },
+  "dependencies": {
+    "await-to-js": "^3.0.0",
+    "lodash": "^4.17.21"
+  }
+}
