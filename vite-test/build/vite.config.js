@@ -13,7 +13,7 @@ const envResolver = {
 };
 export default defineConfig(({ command, mode }) => {
     // let env = loadEnv(mode, process.cwd(), "");
-    console.log("command", command);
+    console.log("command", command, mode);
 
     return envResolver[command]();
 });

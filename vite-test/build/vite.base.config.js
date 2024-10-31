@@ -2,6 +2,10 @@ import { defineConfig, loadEnv } from "vite";
 import path from "path";
 import myPlugin from "./plugins/myPlugin";
 import { ipAdress } from "./utils/index";
+// vite.config.js
+import vue from '@vitejs/plugin-vue'
+
+ 
 
 // console.log("Environment", env);
 export default defineConfig({
@@ -9,19 +13,21 @@ export default defineConfig({
     //     exclude: [] //将指定数组中的依赖不进行依赖预构建
     // },
 
-    root: path.resolve(process.cwd(), "./src"), //项目根目录，index.html所在的位置
+    root: path.resolve(process.cwd()), //项目根目录，index.html所在的位置
     base: "/", //开发或生产环境服务的公共基础路径
     mode: "development",
     define: {
         //定义全局常量替换方式
         // "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
     },
-    plugins: [myPlugin()],
+    plugins: [myPlugin(), vue()],
     publicDir: "public", //为静态资源服务的文件夹
     cacheDir: "node_modules/.vite", //缓存文件目录，使用缓存可以提高性能
     resolve: {
         //设置别名
-        alias: {},
+        alias: {
+            '@': path.resolve(process.cwd(), 'src')
+        },
         // dedupe: "",
         conditions: ["require"], //情景导出配置
         mainFields: ["module", "jsnext:main", "jsnext"], //解析包的入口
@@ -46,17 +52,14 @@ export default defineConfig({
         port: 8088, //服务端口
         host: "localhost", //服务地址
         open: true, //
-        // proxy: {
-        //     "/main\\.js$": {
-        //         target: "http://localhost:8088",
-        //         changeOrigin: true,
-
-        //         rewrite: (path, options) => {
-        //             console.log("path", path, options);
-        //             return path.replace(/\d*/, "@@@");
-        //         }
-        //     }
-        // },
+        proxy: {
+          // 带选项写法：http://localhost:5173/api/bar -> http://jsonplaceholder.typicode.com/bar
+            '/api': {
+                target: 'http://jsonplaceholder.typicode.com',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ''),
+            },
+        },
         cors: true,
         headers: {},
         watch: {},
