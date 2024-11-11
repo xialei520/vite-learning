@@ -6,12 +6,14 @@
 </template>
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, onBeforeUnmount } from "vue";
-
+import { useStore } from "@/store";
 const count = ref(10);
 const plusOne = computed(() => count.value + 1);
 
+const store = useStore();
 const plus = () => {
     count.value++;
+    store.name = "123";
 };
 
 watch(count, (newVal, preVal) => {

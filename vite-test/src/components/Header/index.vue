@@ -1,5 +1,5 @@
 <template>
-    <header>{{ title }}{{ store.name }}</header>
+    <header>{{ title }}{{ store.nickName }}</header>
     <ul class="list">
         <li
             class="list-item"
@@ -54,6 +54,7 @@ const onClick = ({ path, index }) => {
     router.push({
         path
     });
+    store.$patch({ name: store.name + index });
     console.log("日志输出", index);
 };
 </script>

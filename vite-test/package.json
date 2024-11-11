@@ -4,14 +4,19 @@
     "description": "",
     "main": "main.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "predev": "node scripts/nvm.js",
         "dev": "vite --mode development --config build/vite.config.js",
         "build": "vite build --mode production --config build/vite.config.js",
-        "preview": "vite preview --config build/vite.config.js"
+        "preview": "vite preview --config build/vite.config.js",
+        "prestart": "nvm use"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
+    "engines": {
+        "node": ">=18.16.0",
+        "pnpm": ">=9.12.3"
+    },
     "devDependencies": {
         "@babel/preset-env": "^7.19.4",
         "@vitejs/plugin-legacy": "^4.0.1",
@@ -25,6 +30,7 @@
         "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
         "core-js": "^3.29.1",
         "pinia": "^2.2.5",
+        "pinia-plugin-persistedstate": "^4.1.2",
         "vue": "^3.5.12"
     }
 }
