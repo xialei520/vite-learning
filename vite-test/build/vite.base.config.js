@@ -3,10 +3,12 @@ import path from "path";
 import myPlugin from "./plugins/myPlugin";
 import { ipAdress } from "./utils/index";
 // vite.config.js
-import vue from '@vitejs/plugin-vue'
+import vue from "@vitejs/plugin-vue";
+const resolve = (dir) => path.resolve(__dirname, dir);
 
- 
-
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 // console.log("Environment", env);
 export default defineConfig({
     // optimizeDeps: {
@@ -20,13 +22,22 @@ export default defineConfig({
         //定义全局常量替换方式
         // "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
     },
-    plugins: [myPlugin(), vue()],
+    plugins: [
+        myPlugin(),
+        AutoImport({
+            resolvers: [ElementPlusResolver()]
+        }),
+        Components({
+            resolvers: [ElementPlusResolver()]
+        }),
+        vue()
+    ],
     publicDir: "public", //为静态资源服务的文件夹
     cacheDir: "node_modules/.vite", //缓存文件目录，使用缓存可以提高性能
     resolve: {
         //设置别名
         alias: {
-            '@': path.resolve(process.cwd(), 'src')
+            "@": path.resolve(process.cwd(), "src")
         },
         // dedupe: "",
         conditions: ["require"], //情景导出配置
@@ -50,15 +61,15 @@ export default defineConfig({
     appType: "spa", //应用类型
     server: {
         port: 8088, //服务端口
-        host: "localhost", //服务地址
+        host: ipAdress, //服务地址
         open: true, //
         proxy: {
-          // 带选项写法：http://localhost:5173/api/bar -> http://jsonplaceholder.typicode.com/bar
-            '/api': {
-                target: 'http://jsonplaceholder.typicode.com',
+            // 带选项写法：http://localhost:5173/api/bar -> http://jsonplaceholder.typicode.com/bar
+            "/api": {
+                target: "http://jsonplaceholder.typicode.com",
                 changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, ''),
-            },
+                rewrite: (path) => path.replace(/^\/api/, "")
+            }
         },
         cors: true,
         headers: {},
@@ -77,6 +88,13 @@ export default defineConfig({
         cssCodeSplit: true, //启用/禁用 CSS 代码拆分
         cssTarget: "", //css兼容目标
         sourcemap: "inline", //创建一个独立的 source map 文件
+        minify: "terser", //设置为 false 可以禁用最小化混淆
+        terserOptions: {
+            compress: {
+                drop_console: true, // 生产环境下去除console
+                drop_debugger: true // 生产环境下去除debugger
+            }
+        },
         rollupOptions: {
             // input: path.resolve(__dirname, "index.js"),
             // output: {
@@ -98,7 +116,6 @@ export default defineConfig({
         //     fileName: "index.js" //fileName 是输出的包文件名
         // },
         manifest: false, //当设置为 true，构建后将会生成 manifest.json 文件，
-        minify: false, //设置为 false 可以禁用最小化混淆
         // terserOptions: {},
         emptyOutDir: true, //清空输出目录
         copyPublicDir: false, //默认情况下，Vite 会在构建阶段将 publicDir 目录中的所有文件复制到 outDir 目录中

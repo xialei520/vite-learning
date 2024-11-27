@@ -7,6 +7,7 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import router from "./router";
 // 从一个单文件组件中导入根组件
 import App from "@/layout/home.vue";
+// import componentRegister from "@/config/componentRegister";
 
 const app = createApp(App);
 
@@ -17,6 +18,8 @@ pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
 
 app.use(router);
+
+// componentRegister();
 
 app.mount("#app");
 
